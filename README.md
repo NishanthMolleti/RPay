@@ -1,10 +1,13 @@
-# flutter_application_1
+# Rakuten Pay 
 
-A new Flutter project.
+This project contains the code for the UI of RPay 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+In this project UI for the RPay app can be found . Here the code is formatted in the hierarchical pattern . The Hierarcy is as follows : 
+
+main screen (here main.dart and screen are 2 different folders on the same level in Hierarchy ) . 
+ 
 
 A few resources to get you started if this is your first Flutter project:
 
@@ -14,6 +17,4 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-# RPay-UI
-# Rpay
-# Rpay
+
