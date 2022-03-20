@@ -1,11 +1,42 @@
+import 'dart:convert';
+import 'dart:js';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/screen/EnterAmount.dart';
+import 'package:flutter_application_1/screen/HttpScreen.dart';
 import 'package:flutter_application_1/screen/Navbar.dart';
+import 'package:http/http.dart' as http;
+
+dynamic contact = '';
+dynamic uname = "";
+dynamic uid = "";
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  // const SearchPage({Key? key}) : super(key: key);
+
+  List<String> tempdata = [];
+  Future<List<String>> getUserfromSearch(searchval) async {
+    var url = "localhost:8080";
+    final response =
+        await http.get(Uri.http(url, "walletengine/user/query/" + searchval));
+
+    dynamic d = json.decode(response.body);
+    var users = d["Users"];
+    //   print(users[1]["NAME"]);
+    int l = users.length;
+    //initialize a list
+    List<String> a = [];
+    for (int i = 0; i < l; i++) {
+      a.add(users[i]["NAME"]);
+    }
+    tempdata = a;
+    //   print(tempdata);
+//    print(a);
+
+    return a;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +57,14 @@ class SearchPage extends StatelessWidget {
             );
           },
         ),
+        actions: [
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
         backgroundColor: primaryColor,
         title: Image.asset(
           "assets/images/RakutenPay.jpg",
@@ -34,7 +73,9 @@ class SearchPage extends StatelessWidget {
           height: 30,
         ),
       ),
+      //   COMMENTING TILL LINE 143 , PLEASE REVERT BACK IF IT DOESNT WORK AS EXPECTED
       body: Padding(
+        //use padding if it doesnt work
         padding: EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -42,6 +83,12 @@ class SearchPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
+                onChanged: (value) {
+                  contact = value;
+                  //           print(value);
+                  var searching = getUserfromSearch(value);
+                  print(getUserfromSearch(value));
+                },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Search for User',
@@ -49,19 +96,11 @@ class SearchPage extends StatelessWidget {
                 ),
               ),
             ),
-            ButtonTheme(
-              minWidth: 175.0,
-              height: 55.0,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              child: RaisedButton(
-                textColor: Colors.white,
-                color: Colors.red,
-                child: Text('Find Account'),
-                onPressed: () {},
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[],
             ),
-            FloatingActionButton.extended(
+            /*()          FloatingActionButton.extended(
               foregroundColor: Colors.white,
               label: Text("Pay Contact "),
               icon: Icon(Icons.payment),
@@ -70,15 +109,13 @@ class SearchPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20)),
               onPressed: () {
                 //        print("pressed"); //what should be done on pressing .
+                // if
                 Navigator.of(context).pushNamed(
                     //  "/Testing" /* Name of the page from the routes used  */
                     "/EnterAmount");
               },
-            ),
-            Text(
-              "OR\n",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
+            ),   */
+
             FloatingActionButton.extended(
               foregroundColor: Colors.white,
               label: Text("Pay using QR"),
@@ -105,6 +142,28 @@ class SearchPage extends StatelessWidget {
           ],
         ),
       ),
+
+      /*     body: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  onChanged: (value) {
+                    contact = value;
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Search for User',
+                    hintText: 'Enter User Name / Rakuten Pay ID',
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),          */
     );
   }
 }

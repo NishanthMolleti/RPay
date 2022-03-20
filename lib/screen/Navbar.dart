@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:http/http.dart';
 
 class Navbar extends StatelessWidget {
   // const Navbar({Key? key, IconThemeData iconTheme}) : super(key: key);

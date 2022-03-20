@@ -1,10 +1,29 @@
+import 'dart:convert';
 import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/screen/HttpScreen.dart';
 import 'package:flutter_application_1/screen/Navbar.dart';
+import 'package:http/http.dart' as http;
 
 class Account extends StatelessWidget {
   const Account({Key? key}) : super(key: key);
+  dynamic getUserfromQuery(contact) async {
+    var url = "localhost:8080";
+    final response =
+        await http.get(Uri.http(url, "walletengine/user/" + contact));
+    //    await http.get(Uri.http(url, "walletengine/user/query/" + contact));
+
+    if (response.statusCode == 200) {
+      //   print("in status 200" + response.body);
+      final jsonResponse = jsonDecode(response.body);
+      x = jsonResponse['BALANCE'];
+      print(jsonResponse['NAME']);
+//    print(x.toString() + " balance here ");
+
+      return jsonResponse;
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -24,6 +43,14 @@ class Account extends StatelessWidget {
               );
             },
           ),
+          actions: [
+            TextButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
           backgroundColor: primaryColor,
           title: Image.asset(
             "assets/images/RakutenPay.jpg",
@@ -34,30 +61,28 @@ class Account extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.only(top: 30.0, left: 30, right: 30),
           child: Column(
-            //      crossAxisAlignment: CrossAxisAlignment.start,
-
-            mainAxisAlignment: MainAxisAlignment
-                .spaceEvenly, //put start in place of spaceEvenly
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Text('Hi Nishanth, \n',
+              Container(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Hi Nishanth,  ',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 30,
-                  )),
+                  ),
+                ),
+              ),
               Column(
-                //    mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  const Text('\$ 3000 in RPay\n\n',
-                      textAlign: TextAlign.end,
-                      //    textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                   Container(
                     alignment: Alignment.center,
-                    height: 50,
-                    color: Colors.white,
+                    child: Text('\$ ${x.toString()} in RPay\n\n',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
@@ -66,8 +91,22 @@ class Account extends StatelessWidget {
                 children: <Widget>[
                   FloatingActionButton.extended(
                     foregroundColor: Colors.white,
-                    label: Text("Pay Contact "),
-                    icon: Icon(Icons.payment),
+                    label: Text("Scan QR"),
+                    icon: Icon(Icons.qr_code),
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    onPressed: () {
+                      var jsonResponse = getUserfromQuery('Nishanth');
+                      print(jsonResponse.body);
+                      print(jsonResponse['BALANCE']);
+                      print("pressed"); //what should be done on pressing .
+                    },
+                  ),
+                  FloatingActionButton.extended(
+                    foregroundColor: Colors.white,
+                    label: Text("Pay/Recieve"),
+                    icon: Icon(Icons.payments),
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
@@ -76,45 +115,10 @@ class Account extends StatelessWidget {
                           "/SearchPage" /* Name of the page from the routes used  */); // what should be done on pressing .
                     },
                   ),
-                  FloatingActionButton.extended(
-                    foregroundColor: Colors.white,
-                    label: Text("Pay using QR"),
-                    icon: Icon(Icons.payment),
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    onPressed: () {
-                      print("pressed"); //what should be done on pressing .
-                    },
-                  ),
                 ],
               )
             ],
           ),
         ),
-
-//        floatingActionButton: buildNavigateButton(),
-
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      );
-  Widget buildNavigateButton1() => FloatingActionButton.extended(
-        foregroundColor: Colors.white,
-        label: Text("Pay using Contact Name"),
-        icon: Icon(Icons.payment),
-        backgroundColor: Colors.red,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        onPressed: () {
-          print("pressed");
-        },
-      );
-  Widget buildNavigateButton() => FloatingActionButton.extended(
-        foregroundColor: Colors.white,
-        label: Text("Pay using QR"),
-        icon: Icon(Icons.payment),
-        backgroundColor: Colors.red,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        onPressed: () {
-          print("pressed");
-        },
       );
 }

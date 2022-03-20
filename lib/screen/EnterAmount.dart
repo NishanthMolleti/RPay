@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/screen/Navbar.dart';
+import 'package:flutter_application_1/screen/SearchPage.dart';
+import 'package:http/http.dart';
 
 class EnterAmount extends StatelessWidget {
   const EnterAmount({Key? key}) : super(key: key);
@@ -52,9 +55,36 @@ class _CalculatorState extends State<Calculator> {
     //Calculator
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: Navbar(),
       appBar: AppBar(
-        title: Text('PaymentGateway'),
-        backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+        backgroundColor: primaryColor,
+        title: Image.asset(
+          "assets/images/RakutenPay.jpg",
+          fit: BoxFit.cover,
+          height: 30,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
@@ -77,6 +107,14 @@ class _CalculatorState extends State<Calculator> {
                         fontSize: 100,
                       ),
                     ),
+                  ),
+                  Center(
+                    child: Text(
+                      "Pay " + contact.toString(),
+                      style: TextStyle(
+                          color: Colors
+                              .black), // put this at the top with some changes and we will know whom we are paying to
+                    ), // DELETE THIS CHILD IF IT DOESNT WORK
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

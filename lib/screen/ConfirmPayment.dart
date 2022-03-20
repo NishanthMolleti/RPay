@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/screen/EnterAmount.dart';
+import 'package:flutter_application_1/screen/Navbar.dart';
+import 'package:flutter_application_1/screen/SearchPage.dart';
+import 'package:http/http.dart';
 
 class ConfirmPayment extends StatelessWidget {
   const ConfirmPayment({Key? key}) : super(key: key);
@@ -8,11 +11,33 @@ class ConfirmPayment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Navbar(),
       appBar: AppBar(
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
         backgroundColor: primaryColor,
         title: Image.asset(
           "assets/images/RakutenPay.jpg",
-//          "/Users/ar-molleti.nishanth/Desktop/project/flutter_application_1/Rakuten_Pay_logo.png",
           fit: BoxFit.cover,
           height: 30,
         ),
@@ -32,7 +57,7 @@ class ConfirmPayment extends StatelessWidget {
               style: TextStyle(fontSize: 50),
             ),
             Text(
-              " to User ?",
+              " to " + contact.toString() + " ?",
               style: TextStyle(fontSize: 50),
             ),
             Column(

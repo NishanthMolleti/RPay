@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/screen/Navbar.dart';
-import 'package:flutter_application_1/screen/SearchPage.dart';
-import 'package:http/http.dart';
 
-class TransactionComplete extends StatelessWidget {
-  const TransactionComplete({Key? key}) : super(key: key);
+class SearchingforContacts extends StatelessWidget {
+  const SearchingforContacts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF12AD2B),
       drawer: Navbar(),
       appBar: AppBar(
         leading: Builder(
@@ -27,21 +24,22 @@ class TransactionComplete extends StatelessWidget {
             );
           },
         ),
+        actions: [
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
         backgroundColor: primaryColor,
         title: Image.asset(
           "assets/images/RakutenPay.jpg",
-//          "/Users/ar-molleti.nishanth/Desktop/project/flutter_application_1/Rakuten_Pay_logo.png",
           fit: BoxFit.cover,
           height: 30,
         ),
       ),
-      body: Center(
-        child: Text(
-          "Transaction Successful with " + contact.toString(),
-          style: TextStyle(fontSize: 25),
-          textAlign: TextAlign.center,
-        ),
-      ),
+      body: Container(),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:http/http.dart';
 
 class qrcodepage extends StatelessWidget {
   const qrcodepage({Key? key}) : super(key: key);
