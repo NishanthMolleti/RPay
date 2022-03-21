@@ -84,19 +84,33 @@ class SearchPage extends StatelessWidget {
               child: TextField(
                 onChanged: (query) {
                   //               print(query);
-                  Text(
+                  /*Text(
                     li.toString(),
-                  );
-                  getUserfromQuery(query);
-                  print(li);
+                  );  */
+                  if (query.length > 0) {
+                    getUserfromQuery(query);
+                    print(li.length);
+                    for (int i = 0; i < li.length; i++) {
+                      print(li[i].name + " ");
+                    }
+                  }
                 },
                 decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(),
                   labelText: 'Search for User',
                   hintText: 'Enter User Name / Rakuten Pay ID',
                 ),
               ),
             ),
+            /*
+            ListView.builder(
+              itemCount: li.length,
+              itemBuilder: (context, index) {
+                final user = li[index];
+                return builduser(user);
+              },
+            ),*/
             //        Text(li.length.toString())
 
             Expanded(
@@ -106,7 +120,8 @@ class SearchPage extends StatelessWidget {
                       final user = li[index];
 
                       return ListTile(
-                        title: Text(user.name),
+                        title:
+                            Text(user.name + " " + user.account_id.toString()),
                       );
                     }))),
 
@@ -138,11 +153,9 @@ class SearchPage extends StatelessWidget {
       ),
     );
   }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-
-    throw UnimplementedError();
-  }
+/*
+  Widget builduser(User user) => ListTile(
+        title: Text(user.name),
+        subtitle: Text(user.account_id.toString()),
+      );*/
 }

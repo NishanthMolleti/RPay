@@ -44,11 +44,12 @@ class User {
   User(this.name, this.user_info_id, this.account_id);
 }
 
-List<User> li = [User("ANirudh", 1, 1)];
+List<User> li = [] /*= [User("Anirudh", 1, 1), User("Nishanth", 128, 133)]*/;
+
 dynamic getUserfromQuery(String contact) async {
   var url = "localhost:8080";
   final response =
-      await http.get(Uri.http(url, "walletengine/user/query/" + "A"));
+      await http.get(Uri.http(url, "walletengine/user/query/" + contact));
 
   if (response.statusCode == 200) {
     final jsonResponse = jsonDecode(response.body);
