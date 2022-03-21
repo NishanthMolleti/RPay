@@ -8,22 +8,6 @@ import 'package:http/http.dart' as http;
 
 class Account extends StatelessWidget {
   const Account({Key? key}) : super(key: key);
-  dynamic getUserfromQuery(contact) async {
-    var url = "localhost:8080";
-    final response =
-        await http.get(Uri.http(url, "walletengine/user/" + contact));
-    //    await http.get(Uri.http(url, "walletengine/user/query/" + contact));
-
-    if (response.statusCode == 200) {
-      //   print("in status 200" + response.body);
-      final jsonResponse = jsonDecode(response.body);
-      x = jsonResponse['BALANCE'];
-      print(jsonResponse['NAME']);
-//    print(x.toString() + " balance here ");
-
-      return jsonResponse;
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -67,7 +51,7 @@ class Account extends StatelessWidget {
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Hi Nishanth,  ',
+                  'Hi ${uname},  ',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 30,
@@ -79,7 +63,7 @@ class Account extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.center,
-                    child: Text('\$ ${x.toString()} in RPay\n\n',
+                    child: Text('\$ ${balance.toString()} in RPay\n\n',
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold)),
@@ -97,7 +81,7 @@ class Account extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     onPressed: () {
-                      var jsonResponse = getUserfromQuery('Nishanth');
+                      var jsonResponse = getUserfromInfo('Nishanth');
                       print(jsonResponse.body);
                       print(jsonResponse['BALANCE']);
                       print("pressed"); //what should be done on pressing .

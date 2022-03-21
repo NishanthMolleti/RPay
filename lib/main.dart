@@ -3,6 +3,7 @@ import 'package:flutter_application_1/screen/Account.dart';
 import 'package:flutter_application_1/screen/ConfirmPayment.dart';
 import 'package:flutter_application_1/screen/EnterAmount.dart';
 import 'package:flutter_application_1/screen/HomeScreen.dart';
+import 'package:flutter_application_1/screen/QueryUsers.dart';
 import 'package:flutter_application_1/screen/SearchPage.dart';
 import 'package:flutter_application_1/screen/SearchingforContacts.dart';
 //import 'package:flutter_application_1/screen/Testing.dart';
@@ -13,10 +14,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'screen/HttpScreen.dart';
 
-var x;
-var y;
+var balance;
+var uname;
+var uid;
 //var jsonResponse = getUserfromQuery('Nishanth');
-dynamic getUserfromQuery(contact) async {
+dynamic getUserfromInfo(contact) async {
   var url = "localhost:8080";
   final response =
       await http.get(Uri.http(url, "walletengine/user/" + contact));
@@ -25,8 +27,9 @@ dynamic getUserfromQuery(contact) async {
   if (response.statusCode == 200) {
     //   print("in status 200" + response.body);
     final jsonResponse = jsonDecode(response.body);
-    x = jsonResponse['BALANCE'];
-    y = jsonResponse['Status'];
+    balance = jsonResponse['BALANCE'];
+    uname = jsonResponse['NAME'];
+    uid = jsonResponse["USER_LOGIN_ID"];
     print(jsonResponse['NAME'] + " is the user ");
 //    print(x.toString() + " balance here ");
 
@@ -34,22 +37,41 @@ dynamic getUserfromQuery(contact) async {
   }
 }
 
-dynamic getUserfromSearch(searchval) async {
+class User {
+  late String name;
+  late int user_info_id;
+  late int account_id;
+  User(this.name, this.user_info_id, this.account_id);
+}
+
+List<User> li = [User("ANirudh", 1, 1)];
+dynamic getUserfromQuery(String contact) async {
   var url = "localhost:8080";
   final response =
-      await http.get(Uri.http(url, "walletengine/user/query/" + searchval));
+      await http.get(Uri.http(url, "walletengine/user/query/" + "A"));
 
   if (response.statusCode == 200) {
-    dynamic d = json.decode(response.body);
-    var users = d["Users"];
-    //   print(users[1]["NAME"]);
-    int l = users.length;
-    //initialize a list
-    List<String> a = [];
-    for (int i = 0; i < l; i++) {
-      a.add(users[i]["NAME"]);
+    final jsonResponse = jsonDecode(response.body);
+
+    var u = jsonResponse['Users'];
+    li.clear();
+    for (int i = 0; i < u.length; i++) {
+      User obj =
+          new User(u[i]["NAME"], u[i]["USER_INFO_ID"], u[i]["ACCOUNT_ID"]);
+      li.add(obj);
     }
-    return a;
+  }
+}
+
+Future<QueryUsers> getquerysuggestions(search) async {
+  final url = "localhost:8080/walletengine/user/query/A";
+  final resp = await http.get(Uri.http(url, ''));
+  if (resp.statusCode == 200) {
+    final jsondata = jsonDecode(resp.body);
+    print(jsondata);
+    return jsondata;
+  } else {
+    throw Exception();
   }
 }
 
@@ -59,7 +81,7 @@ dynamic res = 0;
 //var jsonResponse = getUserfromQuery('Nishanth');
 
 class MyApp extends StatelessWidget {
-  var jsonResponse = getUserfromQuery('Nishanth');
+  var jsonResponse = getUserfromInfo('Anirudh');
 
   @override
   Widget build(BuildContext context) {

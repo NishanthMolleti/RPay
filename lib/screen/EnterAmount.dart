@@ -43,7 +43,9 @@ class _CalculatorState extends State<Calculator> {
             color: txtcolor,
           ),
         ),
-        shape: CircleBorder(),
+        //     shape: CircleBorder(),
+        shape: RoundedRectangleBorder(),
+
         color: btncolor,
         padding: EdgeInsets.all(20),
       ),
@@ -116,46 +118,35 @@ class _CalculatorState extends State<Calculator> {
                               .black), // put this at the top with some changes and we will know whom we are paying to
                     ), // DELETE THIS CHILD IF IT DOESNT WORK
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 150,
-                        height: 60,
-                        child: FloatingActionButton.extended(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(
-                                "/SearchPage" /* Name of the page from the routes used  */
-                                ); // what should be done on pressing .
-                          },
-                          backgroundColor: Colors.red,
-                          extendedTextStyle: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          child: SizedBox(
+                            width: 150,
+                            height: 60,
+                            child: FloatingActionButton.extended(
+                              onPressed: () {
+                                //               calculation('=');
+                                Navigator.of(context).pushNamed(
+                                    // "/ConfirmPayment" /* Name of the page from the routes used  */
+                                    "/ConfirmPayment");
+                              },
+                              backgroundColor: Colors.red,
+                              extendedTextStyle: TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              label: Text("Pay "),
+                            ),
                           ),
-                          label: Text("Deny"),
                         ),
-                      ),
-                      SizedBox(
-                        width: 150,
-                        height: 60,
-                        child: FloatingActionButton.extended(
-                          onPressed: () {
-                            //               calculation('=');
-                            Navigator.of(context).pushNamed(
-                                // "/ConfirmPayment" /* Name of the page from the routes used  */
-                                "/ConfirmPayment");
-                          },
-                          backgroundColor: Colors.red,
-                          extendedTextStyle: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          label: Text("Pay "),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 ],
               ),

@@ -34,7 +34,7 @@ dynamic getUserfromQuery(contact) async {
 
 
  */
-Future<User> getStudent(name) async {
+/*Future<User> getStudent(name) async {
   var url = "localhost:8080";
   final response = await http.get(Uri.http(url, "walletengine/user/" + name));
 
@@ -43,4 +43,4 @@ Future<User> getStudent(name) async {
   var result = User(jsonUser["Status"], jsonUser["Name"], jsonUser["LogId"],
       jsonUser["Balance"]);
   return result;
-}
+}*/
