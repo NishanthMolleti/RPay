@@ -38,6 +38,7 @@ List<String> tempdata = [];
 
 class SearchPage extends StatelessWidget {
   List<User> newUsers = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,14 +88,19 @@ class SearchPage extends StatelessWidget {
                   /*Text(
                     li.toString(),
                   );  */
+                  contact = query;
                   if (query.length > 0) {
-                    getUserfromQuery(query);
+                    getUserfromQuery(query.toString());
                     print(li.length);
                     for (int i = 0; i < li.length; i++) {
                       print(li[i].name + " ");
                     }
                   }
                 },
+                /*
+                onTap: (query) {
+                  
+                }, */
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(),
@@ -104,15 +110,6 @@ class SearchPage extends StatelessWidget {
               ),
             ),
             /*
-            ListView.builder(
-              itemCount: li.length,
-              itemBuilder: (context, index) {
-                final user = li[index];
-                return builduser(user);
-              },
-            ),*/
-            //        Text(li.length.toString())
-
             Expanded(
                 child: ListView.builder(
                     itemCount: li.length,
@@ -120,11 +117,9 @@ class SearchPage extends StatelessWidget {
                       final user = li[index];
 
                       return ListTile(
-                        title:
-                            Text(user.name + " " + user.account_id.toString()),
+                        title: Text(user.name + " " + user.userLoginId),
                       );
-                    }))),
-
+                    }))), */
             FloatingActionButton.extended(
               foregroundColor: Colors.white,
               label: Text("Pay using QR "), //remove the variable
@@ -157,5 +152,5 @@ class SearchPage extends StatelessWidget {
   Widget builduser(User user) => ListTile(
         title: Text(user.name),
         subtitle: Text(user.account_id.toString()),
-      );*/
+      ); */
 }

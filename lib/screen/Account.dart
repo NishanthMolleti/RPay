@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'dart:html';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/screen/HttpScreen.dart';
+import 'package:flutter_application_1/screen/HomeScreen.dart';
+
 import 'package:flutter_application_1/screen/Navbar.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
+
 class Account extends StatelessWidget {
-  const Account({Key? key}) : super(key: key);
+  //const Account({Key? key}) : super(key: key);
+  //var j = getUserfromInfo(loginUser);
+  String loginUserName= "",loginUserBalance= "";
+  Account({Key? key,required this.loginUserName,required this.loginUserBalance}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -51,7 +56,7 @@ class Account extends StatelessWidget {
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Hi ${uname},  ',
+                  'Hi ${loginUserName} ,  ',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 30,
@@ -63,7 +68,7 @@ class Account extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.center,
-                    child: Text('\$ ${balance.toString()} in RPay\n\n',
+                    child: Text('\$ ${loginUserBalance} in RPay\n\n',
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold)),

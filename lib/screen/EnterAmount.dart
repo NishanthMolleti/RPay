@@ -110,14 +110,14 @@ class _CalculatorState extends State<Calculator> {
                       ),
                     ),
                   ),
-                  Center(
+                  /*    Center(
                     child: Text(
                       "Pay " + contact.toString(),
                       style: TextStyle(
                           color: Colors
                               .black), // put this at the top with some changes and we will know whom we are paying to
                     ), // DELETE THIS CHILD IF IT DOESNT WORK
-                  ),
+                  ), */
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -141,7 +141,7 @@ class _CalculatorState extends State<Calculator> {
                                 fontSize: 35,
                                 fontWeight: FontWeight.bold,
                               ),
-                              label: Text("Pay "),
+                              label: Text("Pay"),
                             ),
                           ),
                         ),
@@ -154,45 +154,48 @@ class _CalculatorState extends State<Calculator> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('AC', Colors.grey, Colors.black),
-                calcbutton('0', Colors.grey, Colors.black),
-                calcbutton('.', Colors.grey, Colors.black),
+                calcbutton('C', Colors.white, Colors.black),
+                calcbutton('0', Colors.white, Colors.black),
+                calcbutton('.', Colors.white, Colors.black),
 //                calcbutton('/', Colors.amber, Colors.white),
               ],
             ),
             SizedBox(
               height: 10,
+              width: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('1', Colors.grey, Colors.white),
-                calcbutton('2', Colors.grey, Colors.white),
-                calcbutton('3', Colors.grey, Colors.white),
+                calcbutton('1', Colors.white, Colors.black),
+                calcbutton('2', Colors.white, Colors.black),
+                calcbutton('3', Colors.white, Colors.black),
                 //              calcbutton('x', Colors.amber, Colors.white),
               ],
             ),
             SizedBox(
               height: 10,
+              width: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('4', Colors.grey, Colors.white),
-                calcbutton('5', Colors.grey, Colors.white),
-                calcbutton('6', Colors.grey, Colors.white),
+                calcbutton('4', Colors.white, Colors.black),
+                calcbutton('5', Colors.white, Colors.black),
+                calcbutton('6', Colors.white, Colors.black),
                 //               calcbutton('-', Colors.amber, Colors.white),
               ],
             ),
             SizedBox(
               height: 10,
+              width: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('7', Colors.grey, Colors.white),
-                calcbutton('8', Colors.grey, Colors.white),
-                calcbutton('9', Colors.grey, Colors.white),
+                calcbutton('7', Colors.white, Colors.black),
+                calcbutton('8', Colors.white, Colors.black),
+                calcbutton('9', Colors.white, Colors.black),
                 //              calcbutton('+', Colors.amber, Colors.white),
               ],
             ),
@@ -218,7 +221,7 @@ class _CalculatorState extends State<Calculator> {
   dynamic opr = '';
   dynamic preOpr = '';
   void calculation(btnText) {
-    if (btnText == 'AC') {
+    if (btnText == 'C') {
       text = '0';
       numOne = 0;
       numTwo = 0;
@@ -227,54 +230,22 @@ class _CalculatorState extends State<Calculator> {
       opr = '';
       preOpr = '';
     } else if (opr == '=' && btnText == '=') {
-      /*     if (preOpr == '+') {
-        finalResult = add();
-      } else if (preOpr == '-') {
-        finalResult = sub();
-      } else if (preOpr == 'x') {
-        finalResult = mul();
-      } else if (preOpr == '/') {
-        finalResult = div();
-      } */
-    } else if (/*btnText == '+' ||
-        btnText == '-' ||
-        btnText == 'x' ||
-        btnText == '/' ||*/
-        btnText == '=') {
+    } else if (btnText == '=') {
       if (numOne == 0) {
         numOne = double.parse(result);
       } else {
         numTwo = double.parse(result);
       }
-/*
-      if (opr == '+') {
-        finalResult = add();
-      } else if (opr == '-') {
-        finalResult = sub();
-      } else if (opr == 'x') {
-        finalResult = mul();
-      } else if (opr == '/') {
-        finalResult = div();
-      }*/
+
       preOpr = opr;
       opr = btnText;
       result = '';
-    } /*else if (btnText == '%') {
-      result = numOne / 100;
-      finalResult = doesContainDecimal(result);
-    } */
-    else if (btnText == '.') {
+    } else if (btnText == '.') {
       if (!result.toString().contains('.')) {
         result = result.toString() + '.';
       }
       finalResult = result;
-    } /*else if (btnText == '+/-') {
-      result.toString().startsWith('-')
-          ? result = result.toString().substring(1)
-          : result = '-' + result.toString();
-      finalResult = result;
-    } */
-    else {
+    } else {
       result = result + btnText;
       finalResult = result;
     }
@@ -287,38 +258,13 @@ class _CalculatorState extends State<Calculator> {
     res = text;
   }
 
-/*
-  String add() {
-    result = (numOne + numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-
-  String sub() {
-    result = (numOne - numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-
-  String mul() {
-    result = (numOne * numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-
-  String div() {
-    result = (numOne / numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-*/
   String doesContainDecimal(dynamic result) {
     if (result.toString().contains('.')) {
       List<String> splitDecimal = result.toString().split('.');
       if (!(int.parse(splitDecimal[1]) > 0))
         return result = splitDecimal[0].toString();
     }
-//    print(result);
+
     return result;
   }
 }
