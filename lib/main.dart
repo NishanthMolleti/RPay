@@ -6,8 +6,9 @@ import 'package:flutter_application_1/screen/HomeScreen.dart';
 import 'package:flutter_application_1/screen/QueryUsers.dart';
 import 'package:flutter_application_1/screen/SearchPage.dart';
 import 'package:flutter_application_1/screen/SearchingforContacts.dart';
-//import 'package:flutter_application_1/screen/Testing.dart';
+
 import 'package:flutter_application_1/screen/TransactionComplete.dart';
+import 'package:flutter_application_1/screen/TransactionIncomplete.dart';
 import 'package:flutter_application_1/screen/qrcodepage.dart';
 import 'package:flutter_application_1/screen/JsonParseDemo.dart';
 import 'package:http/http.dart' as http;
@@ -77,6 +78,8 @@ class MyApp extends StatelessWidget {
           "/EnterAmount": (BuildContext context) => new EnterAmount(),
           "/TransactionComplete": (BuildContext context) =>
               new TransactionComplete(),
+          "/TransactionIncomplete": (BuildContext context) =>
+              new TransactionIncomplete(),
           //         "/Testing": (BuildContext context) => new Testing(),
           "/qrcodepage": (BuildContext context) => new qrcodepage(),
           "/ConfirmPayment": (BuildContext context) => new ConfirmPayment(),

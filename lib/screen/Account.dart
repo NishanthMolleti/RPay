@@ -11,8 +11,10 @@ import '../main.dart';
 class Account extends StatelessWidget {
   //const Account({Key? key}) : super(key: key);
   //var j = getUserfromInfo(loginUser);
-  String loginUserName= "",loginUserBalance= "";
-  Account({Key? key,required this.loginUserName,required this.loginUserBalance}) : super(key: key);
+  String loginUserName = "", loginUserBalance = "";
+  Account(
+      {Key? key, required this.loginUserName, required this.loginUserBalance})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -56,7 +58,7 @@ class Account extends StatelessWidget {
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Hi ${loginUserName} ,  ',
+                  'Hi ${uname} ,  ',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 30,
@@ -68,7 +70,7 @@ class Account extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.center,
-                    child: Text('\$ ${loginUserBalance} in RPay\n\n',
+                    child: Text('\$ ${balance} in RPay\n\n',
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold)),

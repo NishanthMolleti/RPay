@@ -102,20 +102,13 @@ class HomeScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  onPressed: () {
-                    var j = getUserfromInfo(loginUser);
-                    //                  sleep(const Duration(seconds: 1));
-                    for (int i = 0; i < 9000000000; i++) {}
+                  onPressed: () async {
+                    var j = await getUserfromInfo(loginUser);
 
-                    print("jsakldf" + uname + uid + balance.toString());
+                    print(uname + uid + balance.toString());
                     Navigator.of(context).pushNamed(
                         "/Account" /* Name of the page from the routes used  */
                         );
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Account(
-                              loginUserName: 'test',
-                              loginUserBalance: '999',
-                            )));
                   },
                 ),
               ),

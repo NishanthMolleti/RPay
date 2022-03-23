@@ -5,8 +5,8 @@ import 'package:flutter_application_1/screen/SearchPage.dart';
 import 'package:http/http.dart';
 import 'package:flutter_application_1/screen/ConfirmPayment.dart';
 
-class TransactionComplete extends StatelessWidget {
-  const TransactionComplete({Key? key}) : super(key: key);
+class TransactionIncomplete extends StatelessWidget {
+  const TransactionIncomplete({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +32,7 @@ class TransactionComplete extends StatelessWidget {
           TextButton(
             child: Text("Back"),
             onPressed: () {
-              Navigator.of(context).pushNamed(
-                  "/HomePage" /* Name of the page from the routes used  */);
+              Navigator.pop(context);
             },
           ),
         ],
@@ -63,11 +62,9 @@ class TransactionComplete extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Center(
-                  child: Text(
-                    "${jsonres["transaction_number"]}",
-                    style: TextStyle(fontSize: 16),
-                  ),
+                child: Text(
+                  "${jsonres["transaction_number"]}",
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
@@ -81,7 +78,7 @@ class TransactionComplete extends StatelessWidget {
                   "\$${jsonres["amount"]} USD",
                   style: TextStyle(
                       fontSize: 40,
-                      color: Colors.green,
+                      color: Colors.red,
                       fontWeight: FontWeight.bold),
                 ),
               ),

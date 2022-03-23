@@ -13,28 +13,8 @@ import 'package:http/http.dart' as http;
 dynamic contact = '';
 dynamic uname = "";
 dynamic uid = "";
-List<String> temp = [];
-List<String> tempdata = [];
-/* Future<List<String>>*/ dynamic getUserfromSearch(searchval) async {
-  var url = "localhost:8080";
-  final response =
-      await http.get(Uri.http(url, "walletengine/user/query/" + searchval));
-
-  dynamic d = json.decode(response.body);
-  var users = d["Users"];
-  //   print(users[1]["NAME"]);
-  int l = users.length;
-  //initialize a list
-  List<String> a = [];
-  for (int i = 0; i < l; i++) {
-    a.add(users[i]["NAME"]);
-  }
-  temp = a;
-  tempdata = a;
-
-  return users[0]["NAME"];
-//    return temp;
-}
+String receiverUid = "";
+String receiverName = "";
 
 class SearchPage extends StatelessWidget {
   List<User> newUsers = [];
@@ -83,20 +63,27 @@ class SearchPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
-                onChanged: (query) {
+                onChanged: (query) async {
                   //               print(query);
                   /*Text(
                     li.toString(),
                   );  */
                   contact = query;
                   if (query.length > 0) {
-                    getUserfromQuery(query.toString());
-                    print(li.length);
+                    await getUserfromQuery(query.toString());
+                    print(li
+                        .length); /*
                     for (int i = 0; i < li.length; i++) {
-                      print(li[i].name + " ");
+                      print(li[i].name + " " + li[i].userLoginId);
+                    }*/
+                    if (li.length > 0) {
+                      receiverName = li[0].name;
+                      receiverUid = li[0].userLoginId;
                     }
+                    print(receiverUid);
                   }
                 },
+
                 /*
                 onTap: (query) {
                   
@@ -122,7 +109,7 @@ class SearchPage extends StatelessWidget {
                     }))), */
             FloatingActionButton.extended(
               foregroundColor: Colors.white,
-              label: Text("Pay using QR "), //remove the variable
+              label: Text(" Pay "), //remove the variable
               icon: Icon(Icons.payment),
               backgroundColor: Colors.red,
               shape: RoundedRectangleBorder(
