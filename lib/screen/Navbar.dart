@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:http/http.dart';
+import 'package:flutter_application_1/screen/HomeScreen.dart';
 
 class Navbar extends StatelessWidget {
   // const Navbar({Key? key, IconThemeData iconTheme}) : super(key: key);
@@ -12,7 +13,7 @@ class Navbar extends StatelessWidget {
         //    backgroundColor: Colors.red,
         child: ListView(
       children: [
-        UserAccountsDrawerHeader(
+        const UserAccountsDrawerHeader(
           accountName: Text("User Name"),
           accountEmail: Text("user@gmail.com"),
           currentAccountPicture: CircleAvatar(
@@ -36,7 +37,14 @@ class Navbar extends StatelessWidget {
             Navigator.of(context).pushNamed(
                 "/qrcodepage" /* Name of the page from the routes used  */); //try to show my qr code ;
           },
-        )
+        ),
+        ListTile(
+          leading: Icon(Icons.logout),
+          title: Text("Logout"),
+          onTap: () {
+            Navigator.of(context).pushNamed("/HomeScreen");
+          },
+        ),
       ],
     ));
   }
