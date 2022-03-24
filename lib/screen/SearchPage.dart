@@ -93,9 +93,12 @@ class _SearchPage extends State<SearchPage> {
                           receiverName = li[0].name;
                           receiverUid = li[0].userLoginId;
                         } else {
+                          await getUserfromQuery(query.toString());
                           li.clear();
                         }
                         print(receiverUid);
+                      } else {
+                        li.clear();
                       }
                     },
                     decoration: InputDecoration(

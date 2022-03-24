@@ -137,7 +137,9 @@ class _CalculatorState extends State<Calculator> {
                                               TextButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      text = 0;
+                                                      text = '0';
+                                                      finalResult = '0';
+                                                      result = '';
                                                     });
                                                     Navigator.pop(context);
                                                   },

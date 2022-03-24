@@ -45,6 +45,16 @@ class Account extends StatelessWidget {
               );
             },
           ),
+          actions: [
+            TextButton(
+              child: Text("Back"),
+              onPressed: () async {
+                await getBalance();
+                Navigator.of(context).pushNamed(
+                    "/Account" /* Name of the page from the routes used  */);
+              },
+            ),
+          ],
           backgroundColor: primaryColor,
           title: Image.asset(
             "assets/images/RakutenPay.jpg",
