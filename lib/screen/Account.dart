@@ -91,10 +91,8 @@ class Account extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20)),
                     onPressed: () {
-                      var jsonResponse = getUserfromInfo('Nishanth');
-                      print(jsonResponse.body);
-                      print(jsonResponse['BALANCE']);
-                      print("pressed"); //what should be done on pressing .
+                      print(
+                          "opening camera"); //what should be done on pressing .
                     },
                   ),
                   FloatingActionButton.extended(

@@ -11,7 +11,7 @@ import 'Rusers.dart';
 
 String loginUser = "";
 String x = "";
-dynamic uname = "";
+//dynamic uname = "";
 dynamic uid = "";
 int balance = 0;
 dynamic getUserfromInfo(contact) async {

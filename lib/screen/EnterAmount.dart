@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/screen/HomeScreen.dart';
 import 'package:flutter_application_1/screen/Navbar.dart';
 import 'package:flutter_application_1/screen/SearchPage.dart';
 import 'package:http/http.dart';
@@ -106,18 +107,10 @@ class _CalculatorState extends State<Calculator> {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 100,
+                        fontSize: 60,
                       ),
                     ),
                   ),
-                  /*    Center(
-                    child: Text(
-                      "Pay " + contact.toString(),
-                      style: TextStyle(
-                          color: Colors
-                              .black), // put this at the top with some changes and we will know whom we are paying to
-                    ), // DELETE THIS CHILD IF IT DOESNT WORK
-                  ), */
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
@@ -132,9 +125,30 @@ class _CalculatorState extends State<Calculator> {
                             child: FloatingActionButton.extended(
                               onPressed: () {
                                 //               calculation('=');
-                                Navigator.of(context).pushNamed(
-                                    // "/ConfirmPayment" /* Name of the page from the routes used  */
-                                    "/ConfirmPayment");
+                                if (int.parse(res) > balance) {
+                                  print("inside if $balance");
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            title: Text("Error"),
+                                            content: Text(
+                                                "Insufficient Funds , your current balance is \$${balance}"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      text = 0;
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("OK"))
+                                            ],
+                                          ));
+                                } else {
+                                  Navigator.of(context).pushNamed(
+                                      // "/ConfirmPayment" /* Name of the page from the routes used  */
+                                      "/ConfirmPayment");
+                                }
                               },
                               backgroundColor: Colors.red,
                               extendedTextStyle: TextStyle(

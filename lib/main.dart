@@ -22,8 +22,8 @@ class User {
   User(this.name, this.userLoginId);
 }
 
-List<User> li = [] /*= [User("Anirudh", 1, 1), User("Nishanth", 128, 133)]*/;
-
+List<User> li = [];
+dynamic uname = "";
 dynamic getUserfromQuery(String contact) async {
   var url = "localhost:8080";
   final response =
@@ -36,7 +36,9 @@ dynamic getUserfromQuery(String contact) async {
     li.clear();
     for (int i = 0; i < u.length; i++) {
       User obj = User(u[i]["name"], u[i]["user_login_id"]);
-      li.add(obj);
+      if (u[i]["name"] != uname) {
+        li.add(obj);
+      }
     }
   }
 }

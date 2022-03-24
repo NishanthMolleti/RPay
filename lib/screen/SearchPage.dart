@@ -58,83 +58,130 @@ class _SearchPage extends State<SearchPage> {
           height: 30,
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(15.0),
-        child: Autocomplete<User>(
-          optionsBuilder: (TextEditingValue textEditingValue) {
-            return li
-                .where((User user) => user.name
-                    .toLowerCase()
-                    .startsWith(textEditingValue.text.toLowerCase()))
-                .toList();
-          },
-          displayStringForOption: (User option) => option.name,
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController fieldTextEditingController,
-              FocusNode fieldFocusNode,
-              VoidCallback onFieldSubmitted) {
-            return TextField(
-              controller: fieldTextEditingController,
-              focusNode: fieldFocusNode,
-              onChanged: (query) async {
-                contact = query;
-                if (query.length > 0) {
-                  await getUserfromQuery(query.toString());
-                  print(li.length);
-                  if (li.length > 0) {
-                    receiverName = li[0].name;
-                    receiverUid = li[0].userLoginId;
-                  } else {
-                    li.clear();
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Autocomplete<User>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  for (int i = 0; i < li.length; i++) {
+                    if (li[i].name == uname.toString()) {
+                      li.remove(li[i]);
+                    }
                   }
-                  print(receiverUid);
-                }
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-                labelText: 'Search for User',
-                hintText: 'Enter User Name / Rakuten Pay ID',
-              ),
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            );
-          },
-          onSelected: (User selection) {
-            contact = selection.name;
-            print('Selected: ${selection.name}');
-          },
-          optionsViewBuilder: (BuildContext context,
-              AutocompleteOnSelected<User> onSelected, Iterable<User> options) {
-            return Align(
-              alignment: Alignment.topLeft,
-              child: Material(
-                child: Container(
-                  child: Scrollbar(
-                    child: ListView.builder(
-                      padding: EdgeInsets.all(10.0),
-                      itemCount: options.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final User option = options.elementAt(index);
-                        return GestureDetector(
-                          onTap: () {
-                            onSelected(option);
-                            Navigator.of(context).pushNamed("/EnterAmount");
-                          },
-                          child: ListTile(
-                            title: Text(option.name,
-                                style: const TextStyle(color: Colors.black)),
-                          ),
-                        );
-                      },
+                  return li
+                      .where((User user) => user.name
+                          .toLowerCase()
+                          .startsWith(textEditingValue.text.toLowerCase()))
+                      .toList();
+                },
+                displayStringForOption: (User option) => option.name,
+                fieldViewBuilder: (BuildContext context,
+                    TextEditingController fieldTextEditingController,
+                    FocusNode fieldFocusNode,
+                    VoidCallback onFieldSubmitted) {
+                  return TextField(
+                    controller: fieldTextEditingController,
+                    focusNode: fieldFocusNode,
+                    onChanged: (query) async {
+                      contact = query;
+                      if (query.length > 0) {
+                        await getUserfromQuery(query.toString());
+                        print(li.length);
+                        if (li.length > 0) {
+                          receiverName = li[0].name;
+                          receiverUid = li[0].userLoginId;
+                        } else {
+                          li.clear();
+                        }
+                        print(receiverUid);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(),
+                      labelText: 'Search for User',
+                      hintText: 'Enter User Name / Rakuten Pay ID',
                     ),
-                    isAlwaysShown: true,
-                  ),
-                ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  );
+                },
+                onSelected: (User selection) {
+                  contact = selection.name;
+                  print('Selected: ${selection.name}');
+                },
+                optionsViewBuilder: (BuildContext context,
+                    AutocompleteOnSelected<User> onSelected,
+                    Iterable<User> options) {
+                  return Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
+                      child: Container(
+                        child: Scrollbar(
+                          child: ListView.builder(
+                            padding: EdgeInsets.all(10.0),
+                            itemCount: options.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final User option = options.elementAt(index);
+                              return GestureDetector(
+                                onTap: () {
+                                  onSelected(option);
+                                  Navigator.of(context)
+                                      .pushNamed("/EnterAmount");
+                                },
+                                child: ListTile(
+                                  title: Text(option.name,
+                                      style:
+                                          const TextStyle(color: Colors.black)),
+                                ),
+                              );
+                            },
+                          ),
+                          isAlwaysShown: true,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+            // Center(
+
+            //   child: FloatingActionButton.extended(
+            //     foregroundColor: Colors.white,
+            //     label: Text(" Pay Using QR"), //remove the variable
+            //     icon: Icon(Icons.payment),
+            //     backgroundColor: Colors.red,
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(20)),
+            //     onPressed: () {
+            //       print("opening camera");
+            //       Navigator.of(context).pushNamed(
+            //           "/qrcodepage" /* Name of the page from the routes used  */
+            //           ); //remove later //what should be done on pressing .// actual method is TransactionComplete
+            //     },
+            //   ),
+            // ),
+          ],
         ),
       ),
+      floatingActionButton: Container(
+        padding: EdgeInsets.only(bottom: 100.0),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: FloatingActionButton.extended(
+            backgroundColor: Colors.red,
+            onPressed: () {
+              print("opening camera...");
+            },
+            icon: Icon(Icons.qr_code_2),
+            label: Text("Pay using QR"),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+//      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
