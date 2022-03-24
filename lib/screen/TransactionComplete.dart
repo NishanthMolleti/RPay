@@ -66,7 +66,7 @@ class TransactionComplete extends StatelessWidget {
                 child: Center(
                   child: Text(
                     "${jsonres["transaction_number"]}",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 10),
                   ),
                 ),
               ),

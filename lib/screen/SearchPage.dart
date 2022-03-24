@@ -15,6 +15,15 @@ dynamic uname = "";
 dynamic uid = "";
 String receiverUid = "";
 String receiverName = "";
+// CREATING A STATEFUL WIDGET HERE 
+
+
+
+
+
+
+
+//SUGGESTIVE SEARCH CODE ENDS HERE 
 
 class SearchPage extends StatelessWidget {
   List<User> newUsers = [];
@@ -53,9 +62,9 @@ class SearchPage extends StatelessWidget {
           height: 30,
         ),
       ),
-      //   COMMENTING TILL LINE 143 , PLEASE REVERT BACK IF IT DOESNT WORK AS EXPECTED
+      
       body: Padding(
-        //use padding if it doesnt work
+       
         padding: EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -64,18 +73,10 @@ class SearchPage extends StatelessWidget {
               padding: EdgeInsets.all(15),
               child: TextField(
                 onChanged: (query) async {
-                  //               print(query);
-                  /*Text(
-                    li.toString(),
-                  );  */
                   contact = query;
                   if (query.length > 0) {
                     await getUserfromQuery(query.toString());
-                    print(li
-                        .length); /*
-                    for (int i = 0; i < li.length; i++) {
-                      print(li[i].name + " " + li[i].userLoginId);
-                    }*/
+                    print(li.length); 
                     if (li.length > 0) {
                       receiverName = li[0].name;
                       receiverUid = li[0].userLoginId;
