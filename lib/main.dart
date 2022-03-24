@@ -6,7 +6,7 @@ import 'package:flutter_application_1/screen/HomeScreen.dart';
 import 'package:flutter_application_1/screen/QueryUsers.dart';
 import 'package:flutter_application_1/screen/SearchPage.dart';
 import 'package:flutter_application_1/screen/SearchingforContacts.dart';
-
+import 'package:flutter_application_1/screen/Navbar.dart';
 import 'package:flutter_application_1/screen/TransactionComplete.dart';
 import 'package:flutter_application_1/screen/TransactionIncomplete.dart';
 import 'package:flutter_application_1/screen/qrcodepage.dart';
@@ -72,6 +72,7 @@ class MyApp extends StatelessWidget {
 
         // adding routes to access all pages from account page
         routes: <String, WidgetBuilder>{
+          "/HomeScreen": (BuildContext context) => new HomeScreen(),
           "/Account": (BuildContext context) =>
               new Account(loginUserName: '', loginUserBalance: ''),
           "/SearchPage": (BuildContext context) => new SearchPage(),

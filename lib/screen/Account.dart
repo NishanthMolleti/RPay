@@ -8,6 +8,17 @@ import 'package:http/http.dart' as http;
 
 import '../main.dart';
 
+dynamic getBalance() async {
+  var url = "localhost:8080";
+  final response = await http.get(Uri.http(url, "walletengine/balance/" + uid));
+
+  if (response.statusCode == 200) {
+    balance = int.parse(response.body.toString());
+    print(balance);
+    return "";
+  }
+}
+
 class Account extends StatelessWidget {
   //const Account({Key? key}) : super(key: key);
   //var j = getUserfromInfo(loginUser);
@@ -34,14 +45,6 @@ class Account extends StatelessWidget {
               );
             },
           ),
-          actions: [
-            TextButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
           backgroundColor: primaryColor,
           title: Image.asset(
             "assets/images/RakutenPay.jpg",

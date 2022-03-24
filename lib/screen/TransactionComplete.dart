@@ -4,6 +4,8 @@ import 'package:flutter_application_1/screen/Navbar.dart';
 import 'package:flutter_application_1/screen/SearchPage.dart';
 import 'package:http/http.dart';
 import 'package:flutter_application_1/screen/ConfirmPayment.dart';
+import 'package:flutter_application_1/screen/HomeScreen.dart';
+import 'package:flutter_application_1/screen/Account.dart';
 
 class TransactionComplete extends StatelessWidget {
   const TransactionComplete({Key? key}) : super(key: key);
@@ -31,9 +33,10 @@ class TransactionComplete extends StatelessWidget {
         actions: [
           TextButton(
             child: Text("Back"),
-            onPressed: () {
+            onPressed: () async {
+              await getBalance();
               Navigator.of(context).pushNamed(
-                  "/HomePage" /* Name of the page from the routes used  */);
+                  "/Account" /* Name of the page from the routes used  */);
             },
           ),
         ],

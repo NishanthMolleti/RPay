@@ -15,16 +15,132 @@ dynamic uname = "";
 dynamic uid = "";
 String receiverUid = "";
 String receiverName = "";
-// CREATING A STATEFUL WIDGET HERE 
 
+// CREATING A STATEFUL WIDGET HERE
+class SearchPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _SearchPage();
+}
 
+class _SearchPage extends State<SearchPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      drawer: Navbar(),
+      appBar: AppBar(
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+        backgroundColor: primaryColor,
+        title: Image.asset(
+          "assets/images/RakutenPay.jpg",
+          fit: BoxFit.cover,
+          height: 30,
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(15.0),
+        child: Autocomplete<User>(
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            return li
+                .where((User user) => user.name
+                    .toLowerCase()
+                    .startsWith(textEditingValue.text.toLowerCase()))
+                .toList();
+          },
+          displayStringForOption: (User option) => option.name,
+          fieldViewBuilder: (BuildContext context,
+              TextEditingController fieldTextEditingController,
+              FocusNode fieldFocusNode,
+              VoidCallback onFieldSubmitted) {
+            return TextField(
+              controller: fieldTextEditingController,
+              focusNode: fieldFocusNode,
+              onChanged: (query) async {
+                contact = query;
+                if (query.length > 0) {
+                  await getUserfromQuery(query.toString());
+                  print(li.length);
+                  if (li.length > 0) {
+                    receiverName = li[0].name;
+                    receiverUid = li[0].userLoginId;
+                  } else {
+                    li.clear();
+                  }
+                  print(receiverUid);
+                }
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+                labelText: 'Search for User',
+                hintText: 'Enter User Name / Rakuten Pay ID',
+              ),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            );
+          },
+          onSelected: (User selection) {
+            contact = selection.name;
+            print('Selected: ${selection.name}');
+          },
+          optionsViewBuilder: (BuildContext context,
+              AutocompleteOnSelected<User> onSelected, Iterable<User> options) {
+            return Align(
+              alignment: Alignment.topLeft,
+              child: Material(
+                child: Container(
+                  child: Scrollbar(
+                    child: ListView.builder(
+                      padding: EdgeInsets.all(10.0),
+                      itemCount: options.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final User option = options.elementAt(index);
+                        return GestureDetector(
+                          onTap: () {
+                            onSelected(option);
+                            Navigator.of(context).pushNamed("/EnterAmount");
+                          },
+                          child: ListTile(
+                            title: Text(option.name,
+                                style: const TextStyle(color: Colors.black)),
+                          ),
+                        );
+                      },
+                    ),
+                    isAlwaysShown: true,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
 
-
-
-
-
-//SUGGESTIVE SEARCH CODE ENDS HERE 
-
+//SUGGESTIVE SEARCH CODE ENDS HERE
+/*
 class SearchPage extends StatelessWidget {
   List<User> newUsers = [];
 
@@ -142,3 +258,4 @@ class SearchPage extends StatelessWidget {
         subtitle: Text(user.account_id.toString()),
       ); */
 }
+*/

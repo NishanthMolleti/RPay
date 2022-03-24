@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:http/http.dart';
 import 'package:flutter_application_1/screen/HomeScreen.dart';
+import 'package:flutter_application_1/screen/Account.dart';
 
 class Navbar extends StatelessWidget {
   // const Navbar({Key? key, IconThemeData iconTheme}) : super(key: key);
