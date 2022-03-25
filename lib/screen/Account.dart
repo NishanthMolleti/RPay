@@ -47,7 +47,7 @@ class Account extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              child: Text("Back"),
+              child: Text("Refresh"),
               onPressed: () async {
                 await getBalance();
                 Navigator.of(context).pushNamed(
