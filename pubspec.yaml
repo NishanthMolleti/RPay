@@ -27,6 +27,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  intl: ^0.17.0
+  http: ^0.13.4
   qr_flutter: ^4.0.0  #to generate qr code 
   flutter:
     sdk: flutter
@@ -38,6 +40,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  qr_code_scanner: ^0.7.0
   flutter_test:
     sdk: flutter
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/screen/Navbar.dart';
-import 'package:flutter_application_1/screen/SearchPage.dart';
 import 'package:flutter_application_1/screen/ConfirmPayment.dart';
-import 'package:flutter_application_1/screen/Account.dart';
 
-class TransactionComplete extends StatelessWidget {
-  const TransactionComplete({Key? key}) : super(key: key);
+import 'SearchPage.dart';
+
+class TransactionIncomplete extends StatelessWidget {
+  const TransactionIncomplete({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,8 @@ class TransactionComplete extends StatelessWidget {
         actions: [
           TextButton(
             child: const Text("Back"),
-            onPressed: () async {
-              await getBalance();
-              Navigator.of(context).pushNamed(
-                  "/Account" /* Name of the page from the routes used  */);
+            onPressed: () {
+              Navigator.pop(context);
             },
           ),
         ],
@@ -55,7 +53,7 @@ class TransactionComplete extends StatelessWidget {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               Container(
-                padding: const EdgeInsets.only(top: 40),
+                padding: EdgeInsets.only(top: 40),
                 child: const Text(
                   "Transaction Number",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -63,17 +61,15 @@ class TransactionComplete extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8),
-                child: Center(
-                  child: Text(
-                    "${jsonres["transaction_number"]}",
-                    style: const TextStyle(fontSize: 10),
-                  ),
+                child: Text(
+                  "${jsonres["transaction_number"]}",
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: Text(DateTime.now().toString().substring(0, 19),
-                    style: const TextStyle(fontSize: 16)),
+                child:
+                    Text("${jsonres["time"]}", style: TextStyle(fontSize: 16)),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 45),
@@ -81,7 +77,7 @@ class TransactionComplete extends StatelessWidget {
                   "\$${jsonres["amount"]} USD",
                   style: const TextStyle(
                       fontSize: 40,
-                      color: Colors.green,
+                      color: Colors.red,
                       fontWeight: FontWeight.bold),
                 ),
               ),
@@ -99,7 +95,7 @@ class TransactionComplete extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
+                child:  Text(
                   receiverName,
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),

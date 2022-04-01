@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/screen/Navbar.dart';
+import 'package:flutter_application_1/screen/SearchPage.dart';
+
+import 'package:intl/intl.dart';
+import 'HomeScreen.dart';
+import 'SearchPage.dart' as search;
+
+//Calculator logic
+dynamic text = '0';
+dynamic finalResult = '';
+dynamic result = '';
 
 class EnterAmount extends StatelessWidget {
   const EnterAmount({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //     debugShowCheckedModeBanner: false,
-
-      /*     home: */
       body: Container(
         child: Calculator(),
       ),
     );
   }
 }
-
-dynamic re = '0';
 
 class Calculator extends StatefulWidget {
   @override
@@ -34,15 +39,16 @@ class _CalculatorState extends State<Calculator> {
           calculation(btntxt);
         },
         child: Text(
-          '$btntxt',
+          btntxt,
           style: TextStyle(
             fontSize: 35,
             color: txtcolor,
           ),
         ),
-        shape: CircleBorder(),
+        //     shape: CircleBorder(),
+        shape: const RoundedRectangleBorder(),
         color: btncolor,
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
       ),
     );
   }
@@ -52,12 +58,40 @@ class _CalculatorState extends State<Calculator> {
     //Calculator
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: Navbar(),
       appBar: AppBar(
-        title: Text('PaymentGateway'),
-        backgroundColor: Colors.white,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () {
+              search.li.clear();
+              Navigator.pop(context);
+            },
+          ),
+        ],
+        backgroundColor: primaryColor,
+        title: Image.asset(
+          "assets/images/RakutenPay.jpg",
+          fit: BoxFit.cover,
+          height: 30,
+        ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -72,52 +106,67 @@ class _CalculatorState extends State<Calculator> {
                     child: Text(
                       '$text',
                       textAlign: TextAlign.left,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 100,
+                        fontSize: 60,
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        width: 150,
-                        height: 60,
-                        child: FloatingActionButton.extended(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(
-                                "/SearchPage" /* Name of the page from the routes used  */
-                                ); // what should be done on pressing .
-                          },
-                          backgroundColor: Colors.red,
-                          extendedTextStyle: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          child: SizedBox(
+                            width: 150,
+                            height: 60,
+                            child: FloatingActionButton.extended(
+                              heroTag: "Hero5",
+                              onPressed: () {
+                                int enteredAmount = int.parse(
+                                    text.toString().replaceAll(',', ''));
+                                print(uid +
+                                    receiverUid +
+                                    enteredAmount.toString());
+                                if (enteredAmount > balance) {
+                                  print("inside if $balance");
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                            title: const Text("Error"),
+                                            content: Text(
+                                                "Insufficient Funds , your current balance is \$$balance"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      text = text;
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("OK"))
+                                            ],
+                                          ));
+                                } else {
+                                  Navigator.of(context).pushNamed(
+                                      // "/ConfirmPayment" /* Name of the page from the routes used  */
+                                      "/ConfirmPayment");
+                                }
+                              },
+                              backgroundColor: Colors.red,
+                              extendedTextStyle: const TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              label: const Text("Pay"),
+                            ),
                           ),
-                          label: Text("Deny"),
                         ),
-                      ),
-                      SizedBox(
-                        width: 150,
-                        height: 60,
-                        child: FloatingActionButton.extended(
-                          onPressed: () {
-                            //               calculation('=');
-                            Navigator.of(context).pushNamed(
-                                // "/ConfirmPayment" /* Name of the page from the routes used  */
-                                "/ConfirmPayment");
-                          },
-                          backgroundColor: Colors.red,
-                          extendedTextStyle: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          label: Text("Pay "),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -125,52 +174,54 @@ class _CalculatorState extends State<Calculator> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('AC', Colors.grey, Colors.black),
-                calcbutton('0', Colors.grey, Colors.black),
-                calcbutton('.', Colors.grey, Colors.black),
-//                calcbutton('/', Colors.amber, Colors.white),
+                calcbutton('C', Colors.white, Colors.black),
+                calcbutton('0', Colors.white, Colors.black),
+                calcbutton('.', Colors.white, Colors.black),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
+              width: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('1', Colors.grey, Colors.white),
-                calcbutton('2', Colors.grey, Colors.white),
-                calcbutton('3', Colors.grey, Colors.white),
+                calcbutton('1', Colors.white, Colors.black),
+                calcbutton('2', Colors.white, Colors.black),
+                calcbutton('3', Colors.white, Colors.black),
                 //              calcbutton('x', Colors.amber, Colors.white),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
+              width: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('4', Colors.grey, Colors.white),
-                calcbutton('5', Colors.grey, Colors.white),
-                calcbutton('6', Colors.grey, Colors.white),
+                calcbutton('4', Colors.white, Colors.black),
+                calcbutton('5', Colors.white, Colors.black),
+                calcbutton('6', Colors.white, Colors.black),
                 //               calcbutton('-', Colors.amber, Colors.white),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
+              width: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                calcbutton('7', Colors.grey, Colors.white),
-                calcbutton('8', Colors.grey, Colors.white),
-                calcbutton('9', Colors.grey, Colors.white),
+                calcbutton('7', Colors.white, Colors.black),
+                calcbutton('8', Colors.white, Colors.black),
+                calcbutton('9', Colors.white, Colors.black),
                 //              calcbutton('+', Colors.amber, Colors.white),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
           ],
@@ -179,117 +230,39 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
-  //Calculator logic
-  dynamic text = '0';
-  double numOne = 0;
-  double numTwo = 0;
-
-  dynamic result = '';
-  dynamic finalResult = '';
-  dynamic opr = '';
-  dynamic preOpr = '';
   void calculation(btnText) {
-    if (btnText == 'AC') {
-      text = '0';
-      numOne = 0;
-      numTwo = 0;
-      result = '';
+    if (btnText == '0' && text == '0') {
       finalResult = '0';
-      opr = '';
-      preOpr = '';
-    } else if (opr == '=' && btnText == '=') {
-      /*     if (preOpr == '+') {
-        finalResult = add();
-      } else if (preOpr == '-') {
-        finalResult = sub();
-      } else if (preOpr == 'x') {
-        finalResult = mul();
-      } else if (preOpr == '/') {
-        finalResult = div();
-      } */
-    } else if (/*btnText == '+' ||
-        btnText == '-' ||
-        btnText == 'x' ||
-        btnText == '/' ||*/
-        btnText == '=') {
-      if (numOne == 0) {
-        numOne = double.parse(result);
-      } else {
-        numTwo = double.parse(result);
-      }
-/*
-      if (opr == '+') {
-        finalResult = add();
-      } else if (opr == '-') {
-        finalResult = sub();
-      } else if (opr == 'x') {
-        finalResult = mul();
-      } else if (opr == '/') {
-        finalResult = div();
-      }*/
-      preOpr = opr;
-      opr = btnText;
+    }
+    if (btnText == 'C') {
+      text = '0';
       result = '';
-    } /*else if (btnText == '%') {
-      result = numOne / 100;
-      finalResult = doesContainDecimal(result);
-    } */
-    else if (btnText == '.') {
+    } else if (btnText == '.') {
       if (!result.toString().contains('.')) {
         result = result.toString() + '.';
       }
       finalResult = result;
-    } /*else if (btnText == '+/-') {
-      result.toString().startsWith('-')
-          ? result = result.toString().substring(1)
-          : result = '-' + result.toString();
-      finalResult = result;
-    } */
-    else {
+    } else {
       result = result + btnText;
       finalResult = result;
     }
 
     setState(() {
-      text = finalResult;
+      text = NumberFormat.decimalPattern('en_us')
+          .format(int.parse(finalResult))
+          .toString();
     });
     print("printing....");
-    print(text);
-    res = text;
-  }
-
-/*
-  String add() {
-    result = (numOne + numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-
-  String sub() {
-    result = (numOne - numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-
-  String mul() {
-    result = (numOne * numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-
-  String div() {
-    result = (numOne / numTwo).toString();
-    numOne = double.parse(result);
-    return doesContainDecimal(result);
-  }
-*/
-  String doesContainDecimal(dynamic result) {
-    if (result.toString().contains('.')) {
-      List<String> splitDecimal = result.toString().split('.');
-      if (!(int.parse(splitDecimal[1]) > 0))
-        return result = splitDecimal[0].toString();
-    }
-//    print(result);
-    return result;
+    print(finalResult);
   }
 }
+
+
+  // String doesContainDecimal(dynamic result) {
+  //   if (result.toString().contains('.')) {
+  //     List<String> splitDecimal = result.toString().split('.');
+  //     if (!(int.parse(splitDecimal[1]) > 0))
+  //       return result = splitDecimal[0].toString();
+  //   }
+  //   return result;
+  // }
