@@ -62,13 +62,78 @@ class Account extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Hi ${uname} ,  ',
-                  textAlign: TextAlign.start,
+              TextButton.icon(
+                onPressed: () {
+                  // SimpleDialog(
+                  //   title: const Text("Usage History "),
+                  //   children: <Widget>[
+                  //     SimpleDialogOption(
+                  //       onPressed: () {},
+                  //       child: const Text("Transaction Details"),
+                  //     ),
+                  //     SimpleDialogOption(
+                  //       onPressed: () {},
+                  //       child: const Text("Statements"),
+                  //     ),
+                  //   ],
+                  // );
+                  showDialog(
+                      context: context,
+                      builder: (context) => SimpleDialog(
+                            title: const Text("Usage History "),
+                            children: <Widget>[
+                              SimpleDialogOption(
+                                onPressed: () {},
+                                child: const Text("Transaction Details"),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed("/Statements");
+                                },
+                                child: const Text("Statements"),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () {},
+                                child: const Text("Settings"),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () {},
+                                child: const Text("Help"),
+                              ),
+                              SimpleDialogOption(
+                                onPressed: () {},
+                                child: const Text("More"),
+                              ),
+                            ],
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                          ));
+                  // showDialog(
+                  //     context: context,
+                  //     builder: (context) => AlertDialog(
+                  //           title: const Text("Error"),
+                  //           content: Text(
+                  //               "Insufficient Funds , your current balance is \$$balance"),
+                  //           actions: [
+                  //             TextButton(
+                  //                 onPressed: () {
+                  //                   Navigator.pop(context);
+                  //                 },
+                  //                 child: const Text("OK"))
+                  //           ],
+                  //         ));
+                },
+                icon: Icon(
+                  Icons.account_box_rounded,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  "Hi ${uname} ,",
                   style: const TextStyle(
-                    fontSize: 30,
+                    color: Colors.black,
+                    fontSize: 25,
                   ),
                 ),
               ),
@@ -98,9 +163,9 @@ class Account extends StatelessWidget {
                     onPressed: () {
                       print(
                           "opening camera"); //what should be done on pressing .
-                          Navigator.of(context).pushNamed(
-                    "/ScanQR" /* Name of the page from the routes used  */
-                    );
+                      Navigator.of(context).pushNamed(
+                          "/ScanQR" /* Name of the page from the routes used  */
+                          );
                     },
                   ),
                   FloatingActionButton.extended(

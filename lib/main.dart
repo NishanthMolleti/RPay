@@ -6,6 +6,7 @@ import 'package:flutter_application_1/screen/HomeScreen.dart';
 import 'package:flutter_application_1/screen/RakutenUSerLogin.dart';
 import 'package:flutter_application_1/screen/ScanQR.dart';
 import 'package:flutter_application_1/screen/SearchPage.dart';
+import 'package:flutter_application_1/screen/Statements.dart';
 import 'package:flutter_application_1/screen/TransactionComplete.dart';
 import 'package:flutter_application_1/screen/TransactionIncomplete.dart';
 import 'package:flutter_application_1/screen/qrcodepage.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           "/RakutenUSerLogin": (BuildContext context) =>
               const RakutenUserLogin(),
           "/ScanQR": (BuildContext context) => ScanQrPage(),
+          "/Statements": (BuildContext context) => const Statements(),
           //add more pages based on the need similarly
         });
   }
