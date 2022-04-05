@@ -44,12 +44,13 @@ class Statements extends StatelessWidget {
           fit: BoxFit.cover,
           height: 30,
         ),
-        
       ),
-      body: Center(
+      body: Container(
+        alignment: Alignment.topCenter,
+        padding: EdgeInsets.only(top: 10),
         child: Text(
-          "Statements",
-          textAlign: TextAlign.end,
+          "Statement",
+          style: TextStyle(fontSize: 30),
         ),
       ),
     );
