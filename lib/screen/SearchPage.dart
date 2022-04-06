@@ -7,7 +7,6 @@ import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/screen/Navbar.dart';
 import 'HomeScreen.dart';
 
-
 class User {
   late String name;
   late String userLoginId;
