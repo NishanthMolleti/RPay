@@ -1,30 +1,54 @@
-// ignore_for_file: file_names, avoid_unnecessary_containers
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_line/dotted_line.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rpay_proto/EnterAmount.dart';
 import 'package:rpay_proto/NavBar.dart';
+import 'package:rpay_proto/SecondScreen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(const MyApp());
+  runApp(/*const */ MyApp());
+}
+
+dynamic uid = "18891A05D0";
+//dynamic x = getBalance();
+dynamic balance;
+dynamic getBalance() async {
+  var url = "10.0.2.2:8080";
+  final response = await http.get(Uri.http(url, "walletengine/balance/" + uid));
+
+  if (response.statusCode == 200) {
+    balance = int.parse(response.body.toString());
+    return '';
+  }
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  // const MyApp({Key? key}) : super(key: key);
+  var x = getBalance();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
+    return Builder(builder: (context) {
+      return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const MyHomePage(),
+          routes: <String, WidgetBuilder>{
+            "/EnterAmount": (BuildContext context) => const EnterAmount(),
+            "/SecondScreen": (BuildContext context) => const SecondScreen(),
+          });
+    });
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -83,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width * 0.6;
     topMargin = appbar.preferredSize.height;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -121,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               BorderRadius.vertical(top: Radius.circular(35)),
                         ),
                         context: context,
-                        builder: (context) => topUp());
+                        builder: (context) => topUp(context));
                   },
                   child: buildBalance()),
               Container(
@@ -139,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildBalance() {
+    getBalance();
     if (activeIndex == 0) {
       return Container(
           margin: const EdgeInsets.only(top: 20),
@@ -151,8 +177,8 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(
                 height: 2,
               ),
-              const Text(
-                "\$ 1,203.35",
+              Text(
+                "\$ ${balance}",
                 style: TextStyle(color: Colors.white, fontSize: 28),
               ),
               const SizedBox(
@@ -247,6 +273,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ));
     }
   }
+
+  List<String> active = ["Apple Store ", "Bose Store "];
+  List<String> ended = ["Apple Store ", "Macy's"];
+  List<String> descList = ["description ", "description1"];
+
+  var logo = "assets/images/applelogo.png";
+  //List<String,String>= acti=[];
 
   Widget buildPayments() {
     if (activeIndex == 0) {
@@ -365,6 +398,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             SizedBox(),
+            //icon can be included , wrap it under a row
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -413,141 +447,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-        // child: Center(
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: Row(
-        //       //           crossAxisAlignment: CrossAxisAlignment.start,
-        //       //           mainAxisAlignment: MainAxisAlignment.start,
-        //       children: <Widget>[
-        //         Column(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: <Widget>[
-        //             const Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Text(
-        //                 "Payment History",
-        //                 // ignore: prefer_const_constructors
-        //                 style: TextStyle(
-        //                     fontSize: 20,
-        //                     fontWeight: FontWeight.bold,
-        //                     color: Colors.white),
-        //               ),
-        //             ),
-        //             Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Row(
-        //                 children: const <Widget>[
-        //                   Text(
-        //                     "July 2",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                   Text(
-        //                     "  \$22.30",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             SizedBox(),
-        //             Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Row(
-        //                 children: const <Widget>[
-        //                   Text(
-        //                     "Best Buy",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                   SizedBox(
-        //                     width: 220,
-        //                   ),
-        //                   Text(
-        //                     "  \$15.30",
-        //                     style: TextStyle(fontSize: 22, color: Colors.white),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Row(
-        //                 children: const <Widget>[
-        //                   Text(
-        //                     "Starbucks Mobile Order",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                   SizedBox(
-        //                     width: 113,
-        //                   ),
-        //                   Text(
-        //                     "  \$7.00",
-        //                     style: TextStyle(fontSize: 22, color: Colors.white),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Row(
-        //                 children: const <Widget>[
-        //                   Text(
-        //                     "July 1",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                   Text(
-        //                     "  \$71.05",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Row(
-        //                 children: const <Widget>[
-        //                   Text(
-        //                     "iTunes",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                   SizedBox(
-        //                     width: 250,
-        //                   ),
-        //                   Text(
-        //                     "  \$9.80",
-        //                     style: TextStyle(fontSize: 22, color: Colors.white),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             Padding(
-        //               padding: const EdgeInsets.all(8.0),
-        //               child: Row(
-        //                 children: const <Widget>[
-        //                   Text(
-        //                     "Macys.com",
-        //                     style: TextStyle(fontSize: 18, color: Colors.white),
-        //                   ),
-        //                   SizedBox(
-        //                     width: 201,
-        //                   ),
-        //                   Text(
-        //                     "  \$50.25",
-        //                     style: TextStyle(fontSize: 22, color: Colors.white),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //           ],
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ),
       );
     } else {
       return Container(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          //      mainAxisAlignment: MainAxisAlignment.spaceAround,
+
           children: <Widget>[
             const Padding(
               padding: const EdgeInsets.all(8.0),
@@ -586,81 +492,121 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            SizedBox(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const <Widget>[
-                  Expanded(
-                    child: Text(
-                      "Apple Store",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 2,
+              itemBuilder: ((context, index) {
+                //             return Container(
+                //       height: 20,
+                //     var width;
+                double width = MediaQuery.of(context).size.width * 0.6;
+                return GestureDetector(
+                  onTap: () {
+                    //           print(index);
+                    showDialogFunc(context, logo, active[index], active[index]);
+                  },
+                  child: Card(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: Image.asset("assets/images/applelogo.png"),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                active[index],
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.white),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: width,
+                                child: const Text(
+                                  "3/6",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Colors.white),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        //               new Spacer(),
+                        Text(
+                          " \$30",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      " Monthly \$30.00",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const <Widget>[
-                  Expanded(
-                    child: Text(
-                      "Bose Store",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      " Monthly \$30.00",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  // child: ListTile(
+                  //   tileColor: Colors.transparent
+                  //   leading: CircleAvatar(),
+                  //   title: Text(
+                  //     active[index],
+                  //     style: const TextStyle(fontSize: 18, color: Colors.white),
+                  //   ),
+                  //   subtitle: const Text(
+                  //     "3/6",
+                  //     style: TextStyle(fontSize: 10, color: Colors.white),
+                  //   ),
+                  //   trailing: const Text(
+                  //     "Monthly \$30",
+                  //     style: TextStyle(fontSize: 18, color: Colors.white),
+                  //   ),
+                  // ),
+                );
+              }),
+              //         itemCount: 2,
             ),
             // Padding(
             //   padding: const EdgeInsets.all(8.0),
             //   child: Row(
-            //     children: const <Widget>[
-            //       Text(
-            //         "July 1",
-            //         style: TextStyle(fontSize: 18, color: Colors.white),
+            //     children: <Widget>[
+            //       Container(
+            //         margin: const EdgeInsets.only(right: 5),
+            //         child: const Text(
+            //           "Active",
+            //           textAlign: TextAlign.left,
+            //           style: TextStyle(fontSize: 18, color: Colors.white),
+            //         ),
             //       ),
-            //       Text(
-            //         "  \$71.05",
-            //         style: TextStyle(fontSize: 18, color: Colors.white),
+            //       const Expanded(
+            //           child: DottedLine(
+            //         dashColor: Colors.white,
+            //       )),
+            //       Container(
+            //         child: const Text(
+            //           "  \$780.00",
+            //           textAlign: TextAlign.right,
+            //           style: TextStyle(fontSize: 18, color: Colors.white),
+            //         ),
             //       ),
             //     ],
             //   ),
             // ),
+            //  SizedBox(),
             // Padding(
             //   padding: const EdgeInsets.all(8.0),
             //   child: Row(
             //     children: const <Widget>[
             //       Expanded(
             //         child: Text(
-            //           "Best Buy",
+            //           "Apple Store",
             //           style: TextStyle(fontSize: 18, color: Colors.white),
             //         ),
             //       ),
             //       Expanded(
             //         child: Text(
-            //           "  \$15.30",
+            //           " Monthly \$30.00",
             //           textAlign: TextAlign.right,
             //           style: TextStyle(
             //             fontSize: 22,
@@ -677,34 +623,19 @@ class _MyHomePageState extends State<MyHomePage> {
             //     children: const <Widget>[
             //       Expanded(
             //         child: Text(
-            //           "Best Buy",
+            //           "Bose Store",
             //           style: TextStyle(fontSize: 18, color: Colors.white),
             //         ),
             //       ),
             //       Expanded(
             //         child: Text(
-            //           "  \$15.30",
+            //           " Monthly \$30.00",
             //           textAlign: TextAlign.right,
             //           style: TextStyle(
             //             fontSize: 22,
             //             color: Colors.white,
             //           ),
             //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     children: const <Widget>[
-            //       Text(
-            //         "July 2",
-            //         style: TextStyle(fontSize: 18, color: Colors.white),
-            //       ),
-            //       Text(
-            //         "  \$22.30",
-            //         style: TextStyle(fontSize: 18, color: Colors.white),
             //       ),
             //     ],
             //   ),
@@ -714,6 +645,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(
                 children: <Widget>[
                   Container(
+                    height: 30, //height added here
                     margin: const EdgeInsets.only(right: 5),
                     child: const Text(
                       "Ended",
@@ -735,63 +667,122 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const <Widget>[
-                  Expanded(
-                    child: Text(
-                      "Apple Store",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: 2,
+              itemBuilder: ((context, index) {
+                //             return Container(
+                //       height: 20,
+                //     var width;
+                double width = MediaQuery.of(context).size.width * 0.6;
+                return GestureDetector(
+                  onTap: () {
+                    //           print(index);
+                    showDialogFunc(context, logo, active[index], active[index]);
+                  },
+                  child: Card(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 50,
+                          height: 50,
+                          child: Image.asset("assets/images/applelogo.png"),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                active[index],
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.white),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                width: width,
+                                child: const Text(
+                                  "3/6",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Colors.white),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        //                      new Spacer(),
+                        Text(
+                          " \$30",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      " Monthly \$30.00",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const <Widget>[
-                  Expanded(
-                    child: Text(
-                      "Macys.com",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      " Monthly \$30.00",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  // child: ListTile(
+                  //   tileColor: Colors.transparent
+                  //   leading: CircleAvatar(),
+                  //   title: Text(
+                  //     active[index],
+                  //     style: const TextStyle(fontSize: 18, color: Colors.white),
+                  //   ),
+                  //   subtitle: const Text(
+                  //     "3/6",
+                  //     style: TextStyle(fontSize: 10, color: Colors.white),
+                  //   ),
+                  //   trailing: const Text(
+                  //     "Monthly \$30",
+                  //     style: TextStyle(fontSize: 18, color: Colors.white),
+                  //   ),
+                  // ),
+                );
+              }),
+              //         itemCount: 2,
             ),
             // Padding(
             //   padding: const EdgeInsets.all(8.0),
             //   child: Row(
             //     children: const <Widget>[
-            //       Text(
-            //         "July 2",
-            //         style: TextStyle(fontSize: 18, color: Colors.white),
+            //       Expanded(
+            //         child: Text(
+            //           "Apple Store",
+            //           style: TextStyle(fontSize: 18, color: Colors.white),
+            //         ),
             //       ),
-            //       Text(
-            //         "  \$22.30",
-            //         style: TextStyle(fontSize: 18, color: Colors.white),
+            //       Expanded(
+            //         child: Text(
+            //           " Monthly \$30.00",
+            //           textAlign: TextAlign.right,
+            //           style: TextStyle(
+            //             fontSize: 22,
+            //             color: Colors.white,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: Row(
+            //     children: const <Widget>[
+            //       Expanded(
+            //         child: Text(
+            //           "Macys.com",
+            //           style: TextStyle(fontSize: 18, color: Colors.white),
+            //         ),
+            //       ),
+            //       Expanded(
+            //         child: Text(
+            //           " Monthly \$30.00",
+            //           textAlign: TextAlign.right,
+            //           style: TextStyle(
+            //             fontSize: 22,
+            //             color: Colors.white,
+            //           ),
+            //         ),
             //       ),
             //     ],
             //   ),
@@ -808,7 +799,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //       ),
             //       Expanded(
             //         child: Text(
-            //           "  \$15.30",
+            //           " Monthly \$15.30",
             //           textAlign: TextAlign.right,
             //           style: TextStyle(
             //             fontSize: 22,
@@ -819,29 +810,15 @@ class _MyHomePageState extends State<MyHomePage> {
             //     ],
             //   ),
             // ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const <Widget>[
-                  Expanded(
-                    child: Text(
-                      "Best Buy",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      " Monthly \$15.30",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // ListView(
+            //   shrinkWrap: true,
+            //   children: const <Widget>[
+            //     Text(
+            //       "Hello",
+            //       style: TextStyle(fontSize: 14),
+            //     )
+            //   ],
+            // ),
           ],
         ),
       );
@@ -923,7 +900,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       Text(
-                        "TAP TO REVEL",
+                        "TAP TO REVEAL",
                         style: TextStyle(color: Colors.white),
                       ),
                     ]),
@@ -956,8 +933,8 @@ class _MyHomePageState extends State<MyHomePage> {
 //                         builder: (context) => topUp());
 //                   },
 
-Widget topUp() => Padding(
-      padding: const EdgeInsets.all(10.0),
+Widget topUp(context) => Padding(
+      padding: EdgeInsets.all(10.0),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         const SizedBox(
           height: 25,
@@ -996,7 +973,7 @@ Widget topUp() => Padding(
         const Divider(color: Colors.grey, thickness: 0.3, endIndent: 0),
         Container(
           child: Row(
-            children: const [
+            children: <Widget>[
               Icon(
                 Icons.favorite,
                 color: Colors.black,
@@ -1006,12 +983,24 @@ Widget topUp() => Padding(
               SizedBox(
                 width: 25,
               ),
-              Expanded(
-                  child: Text(
-                "Bank",
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 20, color: Colors.black),
-              )),
+              //            Expanded(
+              // child:
+              TextButton(
+                onPressed: () {
+                  //            BuildContext context ;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EnterAmount()),
+                  );
+                },
+                child: Text(
+                  "Bank",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+                //           ),
+              ),
             ],
           ),
         ),
@@ -1202,6 +1191,44 @@ Widget buildSheet() => Padding(
         ),
       ]),
     );
+showDialogFunc(context, logo, title, desc) {
+  return showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Material(
+            type: MaterialType.transparency,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Colors.white),
+              padding: EdgeInsets.all(15),
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.asset(
+                      "assets/images/applelogo.png",
+                      width: 200,
+                      height: 200,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "transaction details here ",
+                    style: TextStyle(fontSize: 10, color: Colors.black),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+}
 
 // Scaffold(
 //         drawer: const Navbar(),

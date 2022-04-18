@@ -148,7 +148,6 @@ class Navbar extends StatelessWidget {
           //   ),
           // ),
           SizedBox(
-            
             height: 300,
           ),
 
