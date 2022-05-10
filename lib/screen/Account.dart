@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../main.dart';
 import 'package:intl/intl.dart';
 
+dynamic uid = "18891A05D0";
 dynamic getBalance() async {
   var url = "10.0.2.2:8080";
   final response = await http.get(Uri.http(url, "walletengine/balance/" + uid));
